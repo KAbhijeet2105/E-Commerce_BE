@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/products")
 public class ProductController {
@@ -25,8 +27,9 @@ public class ProductController {
     }
 
 
-    public void getAllProducts(){
-
+    @GetMapping("/")
+    public List<GenericProductDto> getAllProducts(){
+        return productService.getAllProducts();
     }
 
     @DeleteMapping("/{id}")
@@ -35,8 +38,10 @@ public class ProductController {
     }
 
 
-    public void createProduct(){
-
+    @PostMapping("/createProduct")
+    public GenericProductDto createProduct(@RequestBody GenericProductDto genericProductDto){
+        System.out.println("got the create product request inside controller..."+genericProductDto);
+        return productService.createProduct(genericProductDto);
     }
 
     @PutMapping("/{id}")
@@ -45,7 +50,7 @@ public class ProductController {
     }
 
 
-    @GetMapping("/")
+    @GetMapping("/baseurl")
     public String helloProduct(){
         return "Hello World from Spring Boot! product service.";
     }

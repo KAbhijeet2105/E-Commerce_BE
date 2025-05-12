@@ -5,16 +5,18 @@ import com.ecommerce.productservice.dtos.GenericProductDto;
 import com.ecommerce.productservice.models.Product;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public interface ProductService {
 
      GenericProductDto getProductById(Long id);
 
-     void getAllProducts();
+     List<GenericProductDto> getAllProducts();
 
     void deleteProductById(Long id);
 
-    void createProduct(Product product);
+    GenericProductDto createProduct(GenericProductDto genericProductDto);
 
     void updateProductById(Long id);
 
