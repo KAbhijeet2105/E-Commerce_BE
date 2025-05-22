@@ -1,9 +1,11 @@
 package com.ecommerce.productservice.controllers;
-import com.ecommerce.productservice.dtos.FakeStoreProductDto;
+
+import com.ecommerce.productservice.dtos.ExceptionDto;
 import com.ecommerce.productservice.dtos.GenericProductDto;
+import com.ecommerce.productservice.exceptions.ProductNotFoundException;
 import com.ecommerce.productservice.services.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +24,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public GenericProductDto getProductById(@PathVariable("id") Long id){
+    public GenericProductDto getProductById(@PathVariable("id") Long id) throws ProductNotFoundException {
         return  productService.getProductById(id);
     }
 
@@ -32,9 +34,9 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteProductById(){
-
+    @DeleteMapping("/deleteProduct/{id}")
+    public GenericProductDto deleteProductById(@PathVariable("id") Long id){
+        return null;
     }
 
 
@@ -44,15 +46,24 @@ public class ProductController {
         return productService.createProduct(genericProductDto);
     }
 
-    @PutMapping("/{id}")
-    public void updateProductById(){
-
+    @PutMapping("/updateProduct/{id}")
+    public GenericProductDto updateProductById(@PathVariable("id") Long id){
+        return null;
     }
 
 
     @GetMapping("/baseurl")
     public String helloProduct(){
         return "Hello World from Spring Boot! product service.";
+    }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    private ExceptionDto handleProductNotFoundException(ProductNotFoundException ex){
+        ExceptionDto exceptionDto = new ExceptionDto();
+        exceptionDto.setMessage(ex.getMessage());
+        exceptionDto.setHttpStatus(HttpStatus.NOT_FOUND);
+        System.out.println("Got product not found exception. "+ex.getMessage());
+        return exceptionDto;
     }
 
 

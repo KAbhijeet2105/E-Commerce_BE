@@ -2,6 +2,7 @@ package com.ecommerce.productservice.services;
 
 import com.ecommerce.productservice.dtos.FakeStoreProductDto;
 import com.ecommerce.productservice.dtos.GenericProductDto;
+import com.ecommerce.productservice.exceptions.ProductNotFoundException;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import java.util.List;
 @Service("fakeStoreProductService")
 public class FakeStoreProductService implements ProductService{
 
+   // private final ProductService productService;
     private RestTemplateBuilder restTemplateBuilder;
 
     private String specificProductUrl = "https://fakestoreapi.com/products/{id}";
@@ -20,11 +22,12 @@ public class FakeStoreProductService implements ProductService{
 
     FakeStoreProductService(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplateBuilder = restTemplateBuilder;
+        //this.productService = productService;
     }
 
 
     @Override
-    public GenericProductDto getProductById(Long id) {
+    public GenericProductDto getProductById(Long id) throws ProductNotFoundException {
         //integrate the fakestore api
         //rest template
         RestTemplate restTemplate = restTemplateBuilder.build();
@@ -32,6 +35,10 @@ public class FakeStoreProductService implements ProductService{
 
         FakeStoreProductDto fakeStoreProductDto = responseEntity.getBody();
         //convert fakestore product dto to generic product dto before return
+
+        if(fakeStoreProductDto == null){
+            throw new ProductNotFoundException("product with id : "+id+" doesn't exist.");
+        }
 
         return convertToGenericProductDto(fakeStoreProductDto);
     }
@@ -69,8 +76,8 @@ public class FakeStoreProductService implements ProductService{
     }
 
     @Override
-    public void deleteProductById(Long id) {
-
+    public GenericProductDto deleteProductById(Long id) {
+        return null;
     }
 
     @Override
@@ -86,7 +93,7 @@ public class FakeStoreProductService implements ProductService{
     }
 
     @Override
-    public void updateProductById(Long id) {
-
+    public GenericProductDto updateProductById(Long id) {
+        return null;
     }
 }

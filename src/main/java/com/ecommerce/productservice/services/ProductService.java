@@ -2,6 +2,7 @@ package com.ecommerce.productservice.services;
 
 import com.ecommerce.productservice.dtos.FakeStoreProductDto;
 import com.ecommerce.productservice.dtos.GenericProductDto;
+import com.ecommerce.productservice.exceptions.ProductNotFoundException;
 import com.ecommerce.productservice.models.Product;
 import org.springframework.stereotype.Service;
 
@@ -10,14 +11,14 @@ import java.util.List;
 @Service
 public interface ProductService {
 
-     GenericProductDto getProductById(Long id);
+     GenericProductDto getProductById(Long id) throws ProductNotFoundException; //throws ProductNotFoundException;
 
      List<GenericProductDto> getAllProducts();
 
-    void deleteProductById(Long id);
+    GenericProductDto deleteProductById(Long id);
 
     GenericProductDto createProduct(GenericProductDto genericProductDto);
 
-    void updateProductById(Long id);
+    GenericProductDto updateProductById(Long id);
 
 }
