@@ -29,8 +29,9 @@ public class ProductController {
     }
 
 
-    @GetMapping("/")
+    @GetMapping("/getAllProducts")
     public List<GenericProductDto> getAllProducts(){
+        System.out.println("----- stage1 -- all products store controller");
         return productService.getAllProducts();
     }
 
@@ -65,6 +66,4 @@ public class ProductController {
         System.out.println("Got product not found exception. "+ex.getMessage());
         return exceptionDto;
     }
-
-
 }
